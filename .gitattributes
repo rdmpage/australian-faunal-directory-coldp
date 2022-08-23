@@ -1,0 +1,7 @@
+/bibliography export-ignore
+/code export-ignore
+/data export-ignore
+/junk export-ignore
+*.db export-ignore
+*.gitattributes export-ignore
+*.gitignore export-ignore
