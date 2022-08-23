@@ -88,6 +88,71 @@ PUBLICATION_GUID | The GUID for this publication record.
 PUBLICATION_LAST_UPDATE | The timestamp of the last update to this publication.
 PARENT_PUBLICATION_GUID | The GUID for the publication containing this publication (if any).
 
+### Mapping to ColDP
+
+#### Taxonomic names and taxa
+
+`name.tsv`
+
+AFD | ColDP
+-- | --
+NAME_GUID | ID 
+SCIENTIFIC_NAME | scientificName
+AUTHOR | authorship
+RANK | rank
+| uninominal
+| genus
+| infragenericEpithet
+SPECIES | specificEpithet
+SUBSPECIES | infraspecificEpithet
+| code
+| status
+PUBLICATION_GUID | referenceID
+YEAR | publishedInYear
+
+`taxa.tsv`
+AFD | ColDP
+-- | --
+TAXON_GUID | ID 
+PARENT_TAXON_GUID| parentID
+NAME_GUID | nameID
+PUBLICATION_GUID | referenceID
+TAXON_GUID | link (prefix with https://bie.ala.org.au/species/https://biodiversity.org.au/afd/taxa/)
+
+
+`synonym.tsv`
+AFD | ColDP
+-- | --
+CONCEPT_GUID | ID
+TAXON_GUID | taxonID
+NAME_GUID | nameID
+| status
+| referenceID
+
+
+
+
+
+https://bie.ala.org.au/species/https://biodiversity.org.au/afd/taxa/2eff276b-94ec-43eb-9862-1ac17fb6eca3
+
+#### Bibliography
+
+`reference.tsv`
+
+AFD | ColDP
+-- | --
+PUBLICATION_GUID | ID
+PUB_TYPE | type
+PUB_AUTHOR | author
+PUB_TITLE | title
+PUB_PARENT_JOURNAL_TITLE | containerTitle
+PUB_YEAR | issued
+PUB_PARENT_BOOK_TITLE | collectionTitle
+PUB_PAGES | page
+PUB_PUBLISHER | publisher
+PUBLICATION_GUID | link (`https://biodiversity.org.au/afd/publication/` + PUBLICATION_GUID)
+
+
 
 
 ## Step-by-step guide
@@ -111,6 +176,10 @@ PARENT_PUBLICATION_GUID | The GUID for the publication containing this publicati
 - convert to SQL `php tosql-bib.php > bib.sql`
 
 - import CSV files into database `sqlite3 ../afd.db ".read bib.sql"`. The use of “.read” seems to avoid character encoding issues (see https://stackoverflow.com/a/36468283/9684 ).
+
+- there may still be encoding issues, especially with author names. `SELECT PUB_AUTHOR FROM bibliography WHERE PUB_AUTHOR LIKE “%”;` will find these. The CSV file `authorfixes.csv` has a list of replacements to make, the script `fix-author-encoding.php` applies these to the data.
+
+- repeat this process for taxa by downloading taxa CSV files, fixing encoding, converting to SQL, and uploading to database: `sqlite3 ../afd.db ".read taxa.sql"`
 
 
 
