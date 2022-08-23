@@ -54,7 +54,12 @@ while (!feof($file_handle))
 		{
 			//print_r($parts);
 			
+			$parts[0] = preg_replace('/^"/u', '', $parts[0]);
+			$parts[0] = preg_replace('/"$/u', '', $parts[0]);
+			
 			$sql = 'SELECT * FROM bibliography WHERE PUB_AUTHOR LIKE("%' . $parts[0] . '%")';
+			
+			//echo $sql . "\n";
 			
 			$data = do_query($sql);
 
@@ -72,7 +77,7 @@ while (!feof($file_handle))
 				
 				//echo $parts[0] . ' ' . $parts[1] . ' ' . $pub_author . "\n";
 				
-				$sql = 'UPDATE bibliography SET PUB_AUTHOR="' . $pub_author . '" WHERE PUBLICATION_GUID="' . $pub_guid . '";' ;
+				$sql = 'UPDATE bibliography SET PUB_AUTHOR="' . str_replace('"', '""', $pub_author) . '" WHERE PUBLICATION_GUID="' . $pub_guid . '";' ;
 				
 				echo $sql . "\n";
 			}
