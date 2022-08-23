@@ -100,15 +100,16 @@ NAME_GUID | ID
 SCIENTIFIC_NAME | scientificName
 AUTHOR | authorship
 RANK | rank
-| uninominal
-| genus
-| infragenericEpithet
+FAMILY / GENUS | uninominal
+GENUS | genus / uninominal
+SUBGENUS | infragenericEpithet
 SPECIES | specificEpithet
 SUBSPECIES | infraspecificEpithet
 | code
 | status
 PUBLICATION_GUID | referenceID
 YEAR | publishedInYear
+QUALIFICATION | remarks
 
 `taxa.tsv`
 AFD | ColDP
@@ -130,7 +131,27 @@ NAME_GUID | nameID
 | referenceID
 
 
-
+NAME_TYPE | NAME_SUBTYPE
+-- | --
+Valid Name | .
+Common Name | .
+Common Name | General
+Common Name | Preferred
+Generic Combination | .
+Synonym | emendation
+Synonym | invalid name
+Synonym | junior homonym
+Synonym | nomen dubium
+Synonym | nomen nudum
+Synonym | nomen oblitum
+Synonym | nomen protectum
+Synonym | objective synonym
+Synonym | original spelling
+Synonym | replacement name
+Synonym | subjective synonym
+Synonym | subsequent misspelling
+Synonym | synonym
+Valid Name | .
 
 
 https://bie.ala.org.au/species/https://biodiversity.org.au/afd/taxa/2eff276b-94ec-43eb-9862-1ac17fb6eca3

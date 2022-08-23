@@ -1,0 +1,44 @@
+# doi: 10.5281/zenodo.
+title: Australian Faunal Directory
+alias: AFD
+description: "The Australian Faunal Directory is an online catalogue of taxonomic and biological information on all animal species known to occur within Australia. Data from AFD is available under a CC-BY 4.0 license. This version is based on work done for the Ozymandias knowledge graph, and the eventual goal is to associate each bibliographic reference for a taxonomic name with a persistent identifier, such as a DOI."
+released: 2022-08-23
+version: 0.1
+contact:
+  - given: Roderic
+    family: Page
+    city: Glasgow
+    country: United Kingdom
+    orcid: 0000-0002-7101-9767
+    email: Roderic.Page@glasgow.ac.uk
+    organisation: University of Glasgow
+    rorid: https://ror.org/00vtgdb53
+
+geographicScope: Australia
+taxonomicScope: Animals
+temporalScope: Extant taxa described 
+confidence: 3
+completeness: 0
+license: CC-BY
+source:
+
+  - id: https://biodiversity.org.au/afd/home
+    type: dataset
+    author: ABRS
+    title: Australian Faunal Directory
+    publisher: Australian Biological Resources Study
+    publisherPlace: Canberra
+    issued: 2022
+    version: 23 August 2022 
+    url: https://biodiversity.org.au/afd/home
+
+  - id: https://doi.org/10.7717/peerj.6739
+    type: article-journal
+    doi: 10.7717/peerj.6739
+    author:
+      - Page, R. D. M.
+    title: Ozymandias:\ a biodiversity knowledge graph
+    containerTitle: PeerJ
+    issued: 2019
+    volume: 7
+    page: e6739
