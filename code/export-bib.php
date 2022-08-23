@@ -1,6 +1,8 @@
 <?php
 
-// export references for ColDP
+// export distinct references for ColDP
+
+error_reporting(E_ALL);
 
 require_once(dirname(__FILE__) . '/author-parsing.php');
 
@@ -41,11 +43,6 @@ function do_query($sql)
 
 //----------------------------------------------------------------------------------------
 
-
-$page 	= 100;
-$offset = 0;
-$done 	= false;
-
 $headings = array('ID', 'type', 'author', 'title', 'containerTitle', 'issued', 'collectionTitle', 'page', 'publisher', 'link');
 
 $keys = array('PUBLICATION_GUID', 'PUB_TYPE', 'PUB_AUTHOR', 'PUB_TITLE', 
@@ -54,11 +51,25 @@ $keys = array('PUBLICATION_GUID', 'PUB_TYPE', 'PUB_AUTHOR', 'PUB_TITLE',
 
 echo join("\t", $headings) . "\n";
 
-while (!$done)
+// get distinct ids
+$sql = 'SELECT DISTINCT PUBLICATION_GUID FROM bibliography';
+
+$ids = array();
+
+$data = do_query($sql);
+
+foreach ($data as $obj)
 {
-	$sql = 'SELECT * FROM bibliography WHERE rowid IN (
-  SELECT rowid FROM bibliography LIMIT ' . $page . ' OFFSET ' . $offset . ');';
-  
+	$ids[] = $obj->PUBLICATION_GUID;
+}
+
+// get each reference in turn
+foreach ($ids as $PUBLICATION_GUID)
+{
+	$sql = 'SELECT * FROM bibliography WHERE PUBLICATION_GUID="' . $PUBLICATION_GUID . '" LIMIT  1';
+	
+	// echo $sql . "\n";
+
   	$data = do_query($sql);
 
 	foreach ($data as $obj)
@@ -118,7 +129,7 @@ while (!$done)
 						break;
 						
 					case 'PUB_TITLE':
-						$output->title = $obj->$k;
+						$output->title = strip_tags($obj->$k);
 						break;						
 					
 					case 'PUB_PARENT_JOURNAL_TITLE':
@@ -148,8 +159,6 @@ while (!$done)
 			}
 		}
 		
-		// print_r($output);
-		
 		// translate to ColDP
 		$row = array();
 
@@ -167,18 +176,7 @@ while (!$done)
 		
 		echo join("\t", $row) . "\n";
 		
-	}
-
-	if (count($data) < $page)
-	{
-		$done = true;
-	}
-	else
-	{
-		$offset += $page;
-		//if ($offset > 5) { $done = true; }
-	}
-	
+	}	
 
 }
 
