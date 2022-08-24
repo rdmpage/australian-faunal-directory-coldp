@@ -1,5 +1,7 @@
 # Australian Faunal Directory (AFD) as a Catalogue of Life Data Package (ColDP)
 
+[DOI:10.5281/zenodo.7019105](https://doi.org/10.5281/zenodo.7019105)
+
 A mapping between the [Australian Faunal Directory(AFD)](https://biodiversity.org.au/afd/home) and bibliographic databases such as the Biodiversity Heritage Library, CrossRef, and Wikidata.
 
 The Australian Faunal Directory is an online catalogue of taxonomic and biological information on all animal species known to occur within Australia.
