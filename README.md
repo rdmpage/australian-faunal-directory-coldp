@@ -105,8 +105,8 @@ GENUS | genus / uninominal
 SUBGENUS | infragenericEpithet
 SPECIES | specificEpithet
 SUBSPECIES | infraspecificEpithet
-| code
-| status
+|.  code
+NAME_TYPE / NAME_SUBTYPE | status
 PUBLICATION_GUID | referenceID
 YEAR | publishedInYear
 QUALIFICATION | remarks
@@ -117,7 +117,6 @@ AFD | ColDP
 TAXON_GUID | ID 
 PARENT_TAXON_GUID| parentID
 NAME_GUID | nameID
-PUBLICATION_GUID | referenceID
 TAXON_GUID | link (prefix with https://bie.ala.org.au/species/https://biodiversity.org.au/afd/taxa/)
 
 
@@ -127,31 +126,32 @@ AFD | ColDP
 CONCEPT_GUID | ID
 TAXON_GUID | taxonID
 NAME_GUID | nameID
-| status
-| referenceID
 
 
-NAME_TYPE | NAME_SUBTYPE
--- | --
-Valid Name | .
-Common Name | .
-Common Name | General
-Common Name | Preferred
-Generic Combination | .
-Synonym | emendation
-Synonym | invalid name
-Synonym | junior homonym
-Synonym | nomen dubium
-Synonym | nomen nudum
-Synonym | nomen oblitum
-Synonym | nomen protectum
-Synonym | objective synonym
-Synonym | original spelling
-Synonym | replacement name
-Synonym | subjective synonym
-Synonym | subsequent misspelling
-Synonym | synonym
-Valid Name | .
+#### Mapping between AFD name types and ColDP
+
+See https://github.com/CatalogueOfLife/general/blob/master/docs/NAMES.md#name-status
+
+NAME_TYPE | NAME_SUBTYPE | ColDP
+-- | -- |--
+Common Name | .| .
+Common Name | General| .
+Common Name | Preferred| .
+Generic Combination | .| .
+Synonym | emendation| .
+Synonym | invalid name|  not established
+Synonym | junior homonym| unacceptable
+Synonym | nomen dubium| doubtful
+Synonym | nomen nudum| not established
+Synonym | nomen oblitum| unacceptable
+Synonym | nomen protectum| conserved
+Synonym | objective synonym| .
+Synonym | original spelling| .
+Synonym | replacement name| .
+Synonym | subjective synonym| .
+Synonym | subsequent misspelling| .
+Synonym | synonym| .
+Valid Name | .| .
 
 
 https://bie.ala.org.au/species/https://biodiversity.org.au/afd/taxa/2eff276b-94ec-43eb-9862-1ac17fb6eca3

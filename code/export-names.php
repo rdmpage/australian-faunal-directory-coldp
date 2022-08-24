@@ -49,7 +49,7 @@ $offset = 0;
 $done 	= false;
 
 $headings = array('ID', 'scientificName', 'authorship', 'rank', 'uninomial', 'genus', 
-	'infragenericEpithet', 'specificEpithet', 'infraspecificEpithet', 'code',
+	'infragenericEpithet', 'specificEpithet', 'infraspecificEpithet', 'code', 'status',
 	'referenceID', 'publishedInYear', 'remarks');
 
 $keys = array('NAME_GUID', 'SCIENTIFIC_NAME', 'AUTHOR', 'RANK', 'FAMILY', 'GENUS', 'SUBGENUS',
@@ -65,7 +65,7 @@ while (!$done)
 	$sql = 'SELECT * FROM taxa WHERE rowid IN (
   SELECT rowid FROM taxa WHERE SCIENTIFIC_NAME IS NOT NULL LIMIT ' . $page . ' OFFSET ' . $offset . ');';
   
-  //$sql = 'SELECT * FROM taxa WHERE TAXON_GUID="753809e2-4e92-4881-a4bd-cd5d3a7e6744"';
+  //$sql = 'SELECT * FROM taxa WHERE TAXON_GUID="b1baf6f0-88aa-4240-a543-25ffbb29fa3c"';
   
   	$data = do_query($sql);
 
@@ -138,14 +138,57 @@ while (!$done)
 						break;
 
 					case 'QUALIFICATION':
+						/* this value may include newlines */
+						$obj->{$k} = preg_replace('/\R/u', ' ', $obj->{$k});	
 						$output->remarks = $obj->{$k};
 						break;
 						
-					// sattus of names
+					// status of names, may be overwritten by NAME_SUBTYPE
 					case 'NAME_TYPE':
+						switch ($obj->{$k})
+						{
+							case 'Valid Name':
+							case 'Generic Combination':
+							case 'Synonym':
+								$output->status = 'established';
+								break;						
+
+							default:
+								break;
+						}
 						break;
 						
+					// nomenclatural status, see https://github.com/CatalogueOfLife/general/blob/master/docs/NAMES.md#name-status
 					case 'NAME_SUBTYPE':
+						switch ($obj->{$k})
+						{
+							case 'invalid name':
+								$output->status = 'not established';
+								break;						
+						
+							case 'junior homonym':
+								$output->status = 'unacceptable';
+								break;
+						
+							case 'nomen dubium':
+								$output->status = 'doubtful';
+								break;
+								
+							case 'nomen nudum':
+								$output->status = 'not established';
+								break;
+
+							case 'nomen oblitum':
+								$output->status = 'unacceptable';
+								break;
+																
+							case 'nomen protectum':
+								$output->status = 'conserved';
+								break;								
+						
+							default:
+								break;
+						}
 						break;
 										
 					default:
