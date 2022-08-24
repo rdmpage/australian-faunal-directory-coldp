@@ -2,6 +2,8 @@
 
 // export names for ColDP
 
+error_reporting(E_ALL);
+
 require_once(dirname(__FILE__) . '/author-parsing.php');
 
 $pdo = new PDO('sqlite:../afd.db');
@@ -50,8 +52,10 @@ $headings = array('ID', 'scientificName', 'authorship', 'rank', 'uninomial', 'ge
 	'infragenericEpithet', 'specificEpithet', 'infraspecificEpithet', 'code',
 	'referenceID', 'publishedInYear', 'remarks');
 
-$keys = array('NAME_GUID', 'SCIENTIFIC_NAME', 'AUTHOR', 'RANK', 
-	'SPECIES', 'SUBSPECIES', 'PUBLICATION_GUID', 'YEAR', 'QUALIFICATION');
+$keys = array('NAME_GUID', 'SCIENTIFIC_NAME', 'AUTHOR', 'RANK', 'FAMILY', 'GENUS', 'SUBGENUS',
+	'SPECIES', 'SUBSPECIES', 
+	'NAME_TYPE', 'NAME_SUBTYPE',
+	'PUBLICATION_GUID', 'YEAR', 'QUALIFICATION');
 
 
 echo join("\t", $headings) . "\n";
@@ -61,11 +65,13 @@ while (!$done)
 	$sql = 'SELECT * FROM taxa WHERE rowid IN (
   SELECT rowid FROM taxa WHERE SCIENTIFIC_NAME IS NOT NULL LIMIT ' . $page . ' OFFSET ' . $offset . ');';
   
+  //$sql = 'SELECT * FROM taxa WHERE TAXON_GUID="753809e2-4e92-4881-a4bd-cd5d3a7e6744"';
+  
   	$data = do_query($sql);
 
 	foreach ($data as $obj)
 	{
-		// print_r($obj);
+		//print_r($obj);
 				
 		$output = new stdclass;
 		
@@ -73,66 +79,73 @@ while (!$done)
 		
 		foreach ($keys as $k)
 		{
-			if (isset($obj->$k))
+			if (isset($obj->{$k}))
 			{
 				switch ($k)
 				{
 					case 'NAME_GUID':
-						$output->ID = $obj->$k;
+						$output->ID = $obj->{$k};
 						break;
 						
 					case 'SCIENTIFIC_NAME':
-						$output->scientificName = $obj->$k;
+						$output->scientificName = $obj->{$k};
 						break;
 						
 					case 'AUTHOR':
-						$output->authorship = $obj->$k;
+						$output->authorship = $obj->{$k};
 						break;
 						
 					case 'RANK':
-						$output->rank = strtolower($obj->$k);
+						$output->rank = strtolower($obj->{$k});
 						break;	
 						
 					case 'FAMILY':
-						if (isset($obj->rank) && $obj->rank == 'Family')
+						if (isset($obj->RANK) && $obj->RANK == 'Family')
 						{
-							$output->uninomial = $obj->$k;
+							$output->uninomial = $obj->{$k};
 						}					
 						break;	
 						
 					case 'GENUS':
-						if (isset($obj->rank) && $obj->rank == 'Genus')
+						if (isset($obj->RANK) && ($obj->RANK == 'Genus'))
 						{
-							$output->uninomial = $obj->$k;
+							$output->uninomial = $obj->{$k};
 						}	
 						else
 						{
-							$output->genus = $obj->$k;
-						}				
+							$output->genus = $obj->{$k};
+						}		
 						break;			
 
 					case 'SUBGENUS':
-						$output->infragenericEpithet = $obj->$k;
+						$output->infragenericEpithet = $obj->{$k};
 						break;					
 															
 					case 'SPECIES':
-						$output->specificEpithet = $obj->$k;
+						$output->specificEpithet = $obj->{$k};
 						break;
 
 					case 'SUBSPECIES':
-						$output->infraspecificEpithet = $obj->$k;
+						$output->infraspecificEpithet = $obj->{$k};
 						break;
 						
 					case 'PUBLICATION_GUID':
-						$output->referenceID = $obj->$k;
+						$output->referenceID = $obj->{$k};
 						break;
 
 					case 'YEAR':
-						$output->publishedInYear = $obj->$k;
+						$output->publishedInYear = $obj->{$k};
 						break;
 
 					case 'QUALIFICATION':
-						$output->remarks = $obj->$k;
+						$output->remarks = $obj->{$k};
+						break;
+						
+					// sattus of names
+					case 'NAME_TYPE':
+						break;
+						
+					case 'NAME_SUBTYPE':
 						break;
 										
 					default:

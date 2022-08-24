@@ -88,7 +88,7 @@ while (!$done)
 
 	foreach ($data as $obj)
 	{
-		// print_r($obj);
+		//print_r($obj);
 				
 		$output = new stdclass;
 		
@@ -102,7 +102,7 @@ while (!$done)
 						$output->ID = $obj->$k;
 						break;
 						
-					case 'TAXON_GUID ':
+					case 'TAXON_GUID':
 						$output->taxonID = $obj->$k;
 						break;
 						
@@ -116,7 +116,7 @@ while (!$done)
 			}
 		}
 		
-		// print_r($output);
+		//print_r($output);
 		
 		// translate to ColDP
 		$row = array();
@@ -144,7 +144,7 @@ while (!$done)
 	else
 	{
 		$offset += $page;
-		if ($offset > 5) { $done = true; }
+		//if ($offset > 5) { $done = true; }
 	}
 	
 

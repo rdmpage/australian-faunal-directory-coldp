@@ -2,6 +2,8 @@
 
 // export taxa for ColDP
 
+error_reporting(E_ALL);
+
 require_once(dirname(__FILE__) . '/author-parsing.php');
 
 $pdo = new PDO('sqlite:../afd.db');
@@ -118,7 +120,7 @@ while (!$done)
 	else
 	{
 		$offset += $page;
-		if ($offset > 5) { $done = true; }
+		//if ($offset > 5) { $done = true; }
 	}
 	
 

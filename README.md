@@ -198,10 +198,18 @@ PUBLICATION_GUID | link (`https://biodiversity.org.au/afd/publication/` + PUBLIC
 
 - import CSV files into database `sqlite3 ../afd.db ".read bib.sql"`. The use of “.read” seems to avoid character encoding issues (see https://stackoverflow.com/a/36468283/9684 ).
 
-- there may still be encoding issues, especially with author names. `SELECT PUB_AUTHOR FROM bibliography WHERE PUB_AUTHOR LIKE “%”;` will find these. The CSV file `authorfixes.csv` has a list of replacements to make, the script `fix-author-encoding.php` applies these to the data.
+- there may still be encoding issues, especially with author names. `SELECT PUB_AUTHOR FROM bibliography WHERE PUB_AUTHOR LIKE "%";` will find these. The CSV file `authorfixes.csv` has a list of replacements to make, the script `fix-author-encoding.php` applies these to the data.
 
 - repeat this process for taxa by downloading taxa CSV files, fixing encoding, converting to SQL, and uploading to database: `sqlite3 ../afd.db ".read taxa.sql"`
 
+
+## Examples
+
+Examples to explore or think about.
+
+### Romankenkius glandulosus
+
+AFD has different reference https://doi.org/10.1139/z97-05 than WoRMS, which cites a later work, not the one that made the name chang. Note lots of citations in CrossRef data for 10.1139/z97-05, how many are to other references in AFD?
 
 
 
