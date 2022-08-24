@@ -153,9 +153,6 @@ Synonym | subsequent misspelling| .
 Synonym | synonym| .
 Valid Name | .| .
 
-
-https://bie.ala.org.au/species/https://biodiversity.org.au/afd/taxa/2eff276b-94ec-43eb-9862-1ac17fb6eca3
-
 #### Bibliography
 
 `reference.tsv`
