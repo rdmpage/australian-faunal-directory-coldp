@@ -125,9 +125,6 @@ function data_to_csl($obj)
 				}
 				break;
 				
-				/*
-				// available after processing
-				
 			case 'volume':
 			case 'issue':
 				$csl->{$k} = $v;
@@ -158,7 +155,6 @@ function data_to_csl($obj)
 	
 				$csl->link[] = $link;					
 				break;
-				*/
 						
 			default:
 				break;

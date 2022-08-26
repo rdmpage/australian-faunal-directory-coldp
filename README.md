@@ -201,6 +201,10 @@ PUBLICATION_GUID | link (`https://biodiversity.org.au/afd/publication/` + PUBLIC
 
 - repeat this process for taxa by downloading taxa CSV files, fixing encoding, converting to SQL, and uploading to database: `sqlite3 ../afd.db ".read taxa.sql"`
 
+## Cleaning
+
+`parse-reference.php` tries to parse the formatted HTML to extract series, volume, and issue information.
+
 
 ## Examples
 

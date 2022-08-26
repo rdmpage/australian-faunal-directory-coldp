@@ -62,6 +62,7 @@ foreach ($files as $filename)
 							{
 								case 'NAME_LAST_UPDATE':
 								case 'TAXON_LAST_UPDATE':
+								case 'PUBLICATION_LAST_UPDATE':
 									$v = str_replace('T', ' ', $v);
 									$v = str_replace('+0000', '', $v);
 									
