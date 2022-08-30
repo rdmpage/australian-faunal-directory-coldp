@@ -2,8 +2,8 @@ doi: 10.5281/zenodo.7019105
 title: Australian Faunal Directory
 alias: AFD
 description: "The Australian Faunal Directory is an online catalogue of taxonomic and biological information on all animal species known to occur within Australia. Data from AFD is available under a CC-BY 4.0 license. This version is based on work done for the Ozymandias knowledge graph. The goal is to associate each bibliographic reference with a persistent identifier, such as a DOI."
-released: 2022-08-24
-version: 0.1.2
+released: 2022-08-30
+version: 2022-08-30
 contact:
   - given: Roderic
     family: Page

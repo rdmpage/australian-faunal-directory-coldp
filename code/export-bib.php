@@ -42,17 +42,33 @@ function do_query($sql)
 
 
 //----------------------------------------------------------------------------------------
+	
+$key_mapping = array
+(
+'PUBLICATION_GUID' 			=> 'ID',			
+'PUB_TYPE' 					=> 'type', 			
+'PUB_AUTHOR' 				=> 'author', 		
+'PUB_TITLE'					=> 'title',			
+'PUB_PARENT_JOURNAL_TITLE' 	=> 'containerTitle',
+'issn' 						=> 'issn',			
+'PUB_YEAR' 					=> 'issued',		
+'PUB_PARENT_BOOK_TITLE' 	=> 'collectionTitle',
+'PUB_PAGES'					=> 'page',			
+'PUB_PUBLISHER' 			=> 'publisher',		
+'doi' 						=> 'doi'			
+);
 
-$headings = array('ID', 'type', 'author', 'title', 'containerTitle', 'issued', 'collectionTitle', 'page', 'publisher', 'link');
 
-$keys = array('PUBLICATION_GUID', 'PUB_TYPE', 'PUB_AUTHOR', 'PUB_TITLE', 
-	'PUB_PARENT_JOURNAL_TITLE', 'PUB_YEAR', 'PUB_PARENT_BOOK_TITLE', 'PUB_PAGES', 'PUB_PUBLISHER');
 
+$headings = array_values($key_mapping);
+$headings[] = 'link';
 
 echo join("\t", $headings) . "\n";
 
 // get distinct ids
 $sql = 'SELECT DISTINCT PUBLICATION_GUID FROM bibliography';
+
+//$sql .= ' WHERE issn="0003-4150"';
 
 $ids = array();
 
@@ -74,89 +90,61 @@ foreach ($ids as $PUBLICATION_GUID)
 
 	foreach ($data as $obj)
 	{
-		// print_r($obj);
+		//print_r($obj);
 				
 		$output = new stdclass;
 		
-		foreach ($keys as $k)
+		foreach ($obj as $k => $v)
 		{
-			if (isset($obj->$k))
+			switch ($k)
 			{
-				switch ($k)
-				{
-					case 'PUBLICATION_GUID':
-						$output->ID = $obj->$k;
-						
-						$output->link = 'https://biodiversity.org.au/afd/publication/' . $obj->$k;
-						break;
-						
-					case 'PUB_TYPE':
-						switch ($obj->$k)
-						{
-							case 'Article in Journal':
-								$output->type = 'article-journal';
-								break;
-
-							case 'Book':
-								$output->type = 'book';
-								break;
-
-							case 'Chapter in Book':
-								$output->type = 'chapter';
-								break;
-
-							case 'URL':
-								$output->type = 'webpage';
-								break;
-						
-							case 'This Work':
-								$output->type = 'dataset';
-								break;
-
-							case 'Section in an Article':
-								$output->type = 'article';
-								break;
-
-							case 'Miscellaneous':
-							default:
-								$output->type = 'article';
-								break;
-						}
-						break;
-						
-					case 'PUB_AUTHOR':
-						$output->author = $obj->$k;
-						break;
-						
-					case 'PUB_TITLE':
-						$output->title = strip_tags($obj->$k);
-						break;						
+				case 'PUBLICATION_GUID':
+					$output->{$key_mapping[$k]} = $v;							
+					$output->link = 'https://biodiversity.org.au/afd/publication/' . $v;							
+					break;
 					
-					case 'PUB_PARENT_JOURNAL_TITLE':
-						$output->containerTitle = $obj->$k;
-						break;
+				case 'PUB_TYPE':
+					switch ($v)
+					{
+						case 'Article in Journal':
+							$output->type = 'article-journal';
+							break;
 
-					case 'PUB_YEAR':
-						$output->issued = $obj->$k;
-						break;
+						case 'Book':
+							$output->type = 'book';
+							break;
+
+						case 'Chapter in Book':
+							$output->type = 'chapter';
+							break;
+
+						case 'URL':
+							$output->type = 'webpage';
+							break;
+					
+						case 'This Work':
+							$output->type = 'dataset';
+							break;
+
+						case 'Section in an Article':
+							$output->type = 'article';
+							break;
+
+						case 'Miscellaneous':
+						default:
+							$output->type = 'article';
+							break;
+					}
+					break;
 						
-					case 'PUB_PARENT_BOOK_TITLE':
-						$output->collectionTitle = $obj->$k;
-						break;
-
-					case 'PUB_PAGES':
-						$output->page = $obj->$k;
-						break;
-
-					case 'PUB_PUBLISHER':
-						$output->publisher = $obj->$k;
-						break;
-						
-				
-					default:
-						break;
-				}
+				default:
+					if (isset($key_mapping[$k]))
+					{
+						$output->{$key_mapping[$k]} = $v;
+					}
+					break;
 			}
+
 		}
 		
 		// translate to ColDP
