@@ -205,6 +205,36 @@ PUBLICATION_GUID | link (`https://biodiversity.org.au/afd/publication/` + PUBLIC
 
 `parse-reference.php` tries to parse the formatted HTML to extract series, volume, and issue information.
 
+## Deduplication
+
+The AFD bibliography files have lots of redundancy, and importing them directly means multiple records with the same primary key `PUBLICATION_GUID` (which I didn’t force to be unique at the start). To delete duplicates run:
+
+```
+DELETE FROM bibliography
+WHERE EXISTS (
+    SELECT 1 FROM bibliography bib2
+    WHERE bibliography.PUBLICATION_GUID = bib2.PUBLICATION_GUID
+    AND bibliography.rowid > bib2.rowid
+   );
+```
+
+(See https://database.guide/2-ways-to-delete-duplicate-rows-in-sqlite/) Once we do this, make `PUBLICATION_GUID` unique.
+
+## Adding additional records
+
+If initial harvest failed to get all records we may have to add some. To do this we use
+
+```
+INSERT OR IGNORE INTO
+```
+
+To avoid overwriting any existing record that we may already have started cleaning. This requires that `PUBLICATION_GUID` primary key is unique.
+
+
+## Counts
+
+101152 publications
+~~22026~~ 22788 with DOIs 
 
 ## Examples
 
@@ -215,4 +245,7 @@ Examples to explore or think about.
 AFD has different reference https://doi.org/10.1139/z97-05 than WoRMS, which cites a later work, not the one that made the name chang. Note lots of citations in CrossRef data for 10.1139/z97-05, how many are to other references in AFD?
 
 
+## Bad DOIs
+
+Several journals have DOIs that fail, will make a list and notify CrossRef.
 

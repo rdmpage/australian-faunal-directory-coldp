@@ -3,7 +3,7 @@
 // Convert files to UTF-8 encoding using iconv
 
 $basedir = dirname(dirname(__FILE__)) . '/bibliography';
-$basedir = dirname(dirname(__FILE__)) . '/taxa';
+//$basedir = dirname(dirname(__FILE__)) . '/taxa';
 
 $files = scandir($basedir);
 

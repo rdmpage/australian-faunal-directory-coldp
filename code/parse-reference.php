@@ -1,5 +1,8 @@
 <?php
 
+// Take a CSV file with headings PUBLICATION_GUID	PUB_PARENT_JOURNAL_TITLE	PUB_PAGES	PUB_FORMATTED
+// and parse to extract series, volume,issue, and pagination
+
 error_reporting(E_ALL);
 
 
